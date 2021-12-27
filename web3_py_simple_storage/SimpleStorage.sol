@@ -3,9 +3,7 @@
 pragma solidity ^0.6.0;
 
 contract SimpleStorage {
-
-
-    //intialiezed with 0
+    //intialized with 0
     uint256 favNumber;
 
     struct People {
@@ -21,7 +19,7 @@ contract SimpleStorage {
     }
 
     //view, pure
-    function retrieve() public view returns(uint256) {
+    function retrieve() public view returns (uint256) {
         return favNumber;
     }
 
@@ -29,5 +27,4 @@ contract SimpleStorage {
         people.push(People({favNumber: _favNumber, name: _name}));
         nameTofavoriteNumber[_name] = _favNumber;
     }
-
 }
