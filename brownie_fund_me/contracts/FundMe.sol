@@ -8,7 +8,7 @@ import "@chainlink/contracts/src/v0.6/vendor/SafeMathChainlink.sol";
 contract FundMe {
     using SafeMathChainlink for uint256;
 
-    mapping(address => uint256) public addressToAmmountFunded;
+    mapping(address => uint256) public addressToAmountFunded;
     address[] public funders;
     address public owner;
     AggregatorV3Interface public priceFeed;
@@ -25,7 +25,7 @@ contract FundMe {
             getConversionRate(msg.value) >= minUSD,
             "You need to spend more ETH!"
         );
-        addressToAmmountFunded[msg.sender] += msg.value;
+        addressToAmountFunded[msg.sender] += msg.value;
         funders.push(msg.sender);
         //ETH -> USD conversion?
     }
@@ -70,7 +70,7 @@ contract FundMe {
             funderIndex++
         ) {
             address funder = funders[funderIndex];
-            addressToAmmountFunded[funder] = 0;
+            addressToAmountFunded[funder] = 0;
         }
         funders = new address[](0);
     }
