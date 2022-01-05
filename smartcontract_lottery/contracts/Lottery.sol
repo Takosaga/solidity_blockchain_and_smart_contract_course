@@ -19,6 +19,7 @@ contract Lottery is VRFConsumerBase, Ownable {
     LOTTERY_STATE public lottery_state;
     uint256 public fee;
     bytes32 public keyhash;
+    event RequestedRandomness(bytes32 requestId);
 
     constructor(
         address _priceFeedAddress,
@@ -57,8 +58,19 @@ contract Lottery is VRFConsumerBase, Ownable {
     }
 
     function endLottery() public onlyOwner {
+        // uint256(
+        //     keccack256(
+        //         abi.encodePacked(
+        //             nonce, // nonce is preditable (aka, transaction number)
+        //             msg.sender, // msg.sender is predictable
+        //             block.difficulty, // can actually be manipulated by the miners!
+        //             block.timestamp // timestamp is predictable
+        //         )
+        //     )
+        // ) % players.length;
         lottery_state = LOTTERY_STATE.CALCULATING_WINNER;
-        bytes32 requestID = requestRandomness(keyhash, fee);
+        bytes32 requestId = requestRandomness(keyhash, fee);
+        emit RequestedRandomness(requestId);
     }
 
     function fulfillRandomness(bytes32 _requestID, uint256 _randomness)
